@@ -46,7 +46,7 @@ Esta é a camada de backend do AprendIA: uma API REST em Java que recebe os ques
 | Problema, em uma frase | Professores não têm um jeito rápido e padronizado de saber em quais conteúdos cada aluno está abaixo do esperado para a sua série, nem o que fazer a respeito. |
 | Como funciona | O aluno responde a um questionário da sua série (24 questões de Língua Portuguesa e Matemática). A API corrige, o modelo de ML estima a chance de lacuna em cada um dos 8 conteúdos, e a API gera os insights: nível por disciplina, conteúdos a reforçar em ordem de urgência e uma estratégia de estudo para cada um. Casos duvidosos ficam para o professor confirmar. |
 | O que cada parte faz | **IA:** modelo treinado e exportado em ONNX, com o contrato de integração. **API Java (este repositório):** cadastro de escolas e alunos, correção, execução do modelo, insights, confirmação do professor e histórico, com persistência no Oracle. |
-| Link do repositório | *[preencher]* |
+| Link do repositório | *https://github.com/Stack-Society/gs_SOAeWebServices_2026-27* |
 | Indicador de impacto | % de alunos com diagnóstico no início do ano; tempo até a intervenção; % de lacunas superadas no questionário seguinte (histórico do aluno) |
 | ODS conectados | ODS 4 (Educação de qualidade) e ODS 10 (Redução das desigualdades) |
 
