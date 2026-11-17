@@ -1,0 +1,55 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
+build/
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+### VS Code ###
+.vscode/
+
+### Credenciais e configuração local ###
+# Usuário e senha do Oracle ficam em variáveis de ambiente; nunca versionar arquivos que os contenham
+.env
+.env.*
+*.env
+application-local.properties
+application-*.local.properties
+
+### Logs ###
+*.log
+logs/
+
+### Arquivos compactados (pacotes de entrega gerados à parte) ###
+*.zip
+*.rar
+*.7z
+
+### Sistema operacional ###
+Thumbs.db
+desktop.ini
+.DS_Store

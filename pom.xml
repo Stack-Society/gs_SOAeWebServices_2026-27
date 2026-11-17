@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Arquivo de configuração do Maven: define o projeto, suas dependências e como ele é compilado -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<!-- Versão do formato do POM (sempre 4.0.0 no Maven 3 e 4) -->
+	<modelVersion>4.0.0</modelVersion>
+	<!-- Projeto "pai": herda do Spring Boot as versões das bibliotecas e as configurações padrão de build -->
+	<parent>
+		<!-- Organização que publica o projeto pai -->
+		<groupId>org.springframework.boot</groupId>
+		<!-- Projeto pai padrão das aplicações Spring Boot -->
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<!-- Versão do Spring Boot usada pela API -->
+		<version>4.1.2</version>
+		<relativePath/> <!-- lookup parent from repository -->
+	</parent>
+	<!-- Identificação deste projeto: organização (pacote base) -->
+	<groupId>br.com.fiap3espa</groupId>
+	<!-- Nome do artefato gerado (api-0.0.1-SNAPSHOT.jar) -->
+	<artifactId>api</artifactId>
+	<!-- Versão do projeto; SNAPSHOT indica versão em desenvolvimento -->
+	<version>0.0.1-SNAPSHOT</version>
+	<!-- Nome legível do projeto -->
+	<name>api</name>
+	<!-- Campos de metadados gerados pelo Spring Initializr, deixados vazios -->
+	<description/>
+	<url/>
+	<licenses>
+		<license/>
+	</licenses>
+	<developers>
+		<developer/>
+	</developers>
+	<scm>
+		<connection/>
+		<developerConnection/>
+		<tag/>
+		<url/>
+	</scm>
+	<!-- Propriedades reutilizadas no restante do arquivo -->
+	<properties>
+		<!-- Versão do Java usada para compilar e executar (JDK 25) -->
+		<java.version>25</java.version>
+		<!-- Versão do ONNX Runtime, usada na dependência do modelo de IA mais abaixo -->
+		<onnxruntime.version>1.32.0</onnxruntime.version>
+	</properties>
+	<!-- Bibliotecas de que o projeto depende; as versões do Spring e do Lombok vêm do projeto pai -->
+	<dependencies>
+		<!-- API REST: Spring MVC, servidor Tomcat embutido e conversão de JSON (Jackson); já inclui o núcleo do Spring Boot -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc</artifactId>
+		</dependency>
+
+		<!-- DevTools: reinicia a aplicação automaticamente quando o código é recompilado (só em desenvolvimento) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<!-- runtime: não é usado na compilação, só ao executar -->
+			<scope>runtime</scope>
+			<!-- optional: não é repassado a outros projetos e fica fora do .jar final -->
+			<optional>true</optional>
+		</dependency>
+		<!-- Lombok: gera getters, construtores, equals e hashCode a partir de anotações, em tempo de compilação -->
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<!-- optional: só é necessário para compilar, não vai para o .jar final -->
+			<optional>true</optional>
+		</dependency>
+		<!-- Ferramentas de teste para a camada web (JUnit 5, Spring Test, MockMvc, AssertJ, Mockito) -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-webmvc-test</artifactId>
+			<!-- test: usada só na compilação e execução dos testes, não entra no .jar final -->
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Persistência com JPA/Hibernate: entidades, repositórios, paginação e transações -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<!-- Migrações do banco: o Flyway executa os scripts V1__, V2__... ao iniciar a aplicação -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-flyway</artifactId>
+		</dependency>
+		<!-- Validação dos dados de entrada (Bean Validation): @NotNull, @NotBlank, @Min, @Max, @Pattern... -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<!-- Suporte do Flyway ao banco Oracle (necessário a partir do Flyway 10) -->
+		<dependency>
+			<groupId>org.flywaydb</groupId>
+			<artifactId>flyway-database-oracle</artifactId>
+		</dependency>
+
+		<!-- Driver JDBC do Oracle: faz a conexão física com o banco -->
+		<dependency>
+			<groupId>com.oracle.database.jdbc</groupId>
+			<artifactId>ojdbc11</artifactId>
+			<!-- runtime: só é necessário ao executar, o código não usa classes do driver diretamente -->
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- Execução do modelo de IA (modelo.onnx) dentro da API, sem Python -->
+		<dependency>
+			<groupId>com.microsoft.onnxruntime</groupId>
+			<artifactId>onnxruntime</artifactId>
+			<!-- Usa a versão definida em <properties> -->
+			<version>${onnxruntime.version}</version>
+		</dependency>
+	</dependencies>
+
+	<!-- Configuração do processo de build -->
+	<build>
+		<plugins>
+			<!-- Plugin do Spring Boot: permite "mvnw spring-boot:run" e gera o .jar executável com tudo embutido -->
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<!-- Compilador Java: configurado para executar o Lombok durante a compilação -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<executions>
+					<!-- Compilação do código principal (src/main/java) -->
+					<execution>
+						<id>default-compile</id>
+						<phase>compile</phase>
+						<goals>
+							<goal>compile</goal>
+						</goals>
+						<configuration>
+							<!-- Processadores de anotação: o Lombok gera o código das anotações @Getter, @NoArgsConstructor... -->
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</execution>
+					<!-- Compilação dos testes (src/test/java), com o mesmo processador -->
+					<execution>
+						<id>default-testCompile</id>
+						<phase>test-compile</phase>
+						<goals>
+							<goal>testCompile</goal>
+						</goals>
+						<configuration>
+							<annotationProcessorPaths>
+								<path>
+									<groupId>org.projectlombok</groupId>
+									<artifactId>lombok</artifactId>
+								</path>
+							</annotationProcessorPaths>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>
