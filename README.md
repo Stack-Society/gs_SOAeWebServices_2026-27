@@ -671,7 +671,7 @@ Os ids são gerados pelo banco: depois de criar a escola, o aluno e o diagnósti
 
 ### Testes da coleção
 
-Os 31 testes originais da coleção foram executados no Insomnia e **passaram** (status e respostas conforme o esperado). Depois disso, o código foi reorganizado (pacotes por funcionalidade, Lombok, `@Autowired`), as listagens passaram a ser paginadas e entraram 3 testes novos (32 a 34). Os testes marcados com ⏳ ainda precisam ser executados nesta versão; recomenda-se executar a coleção inteira de novo. Os valores esperados de cada caso, campo a campo, estão no roteiro [TESTES.md](TESTES.md).
+Os 34 testes da coleção foram executados no Insomnia, na versão atual da API, e **todos passaram** (status e respostas conforme o esperado). Os valores esperados de cada caso, campo a campo, estão no roteiro [TESTES.md](TESTES.md), e os prints dos principais casos estão em [Evidências](#evidências).
 
 Nas URLs e nos corpos, `{escola_id}`, `{aluno_id}` e `{diagnostico_id}` são as variáveis do *Base Environment*.
 
@@ -682,7 +682,7 @@ Nas URLs e nos corpos, `{escola_id}`, `{aluno_id}` e `{diagnostico_id}` são as 
 | 3 | Escolas | Criar escola | POST | `/escolas` | `{"codigo": "E01", "nome": "EMEF Exemplo"}` | 201 | ✅ |
 | 4 | Escolas | Criar escola com código repetido | POST | `/escolas` | `{"codigo": "E01", "nome": "Outra escola"}` | 409 | ✅ |
 | 5 | Escolas | Criar escola sem nome | POST | `/escolas` | `{"codigo": "E02", "nome": ""}` | 400 | ✅ |
-| 6 | Escolas | Listar escolas | GET | `/escolas` | — | 200 | ⏳ |
+| 6 | Escolas | Listar escolas | GET | `/escolas` | — | 200 | ✅ |
 | 7 | Escolas | Buscar escola | GET | `/escolas/{escola_id}` | — | 200 | ✅ |
 | 8 | Escolas | Buscar escola inexistente | GET | `/escolas/999999` | — | 404 | ✅ |
 | 9 | Escolas | Atualizar escola | PUT | `/escolas/{escola_id}` | `{"nome": "EMEF Exemplo - Unidade Centro"}` | 200 | ✅ |
@@ -690,7 +690,7 @@ Nas URLs e nos corpos, `{escola_id}`, `{aluno_id}` e `{diagnostico_id}` são as 
 | 11 | Alunos | Criar aluno com código repetido | POST | `/alunos` | `{"codigo": "A03503", "serie": 4, "escolaId": {escola_id}}` | 409 | ✅ |
 | 12 | Alunos | Criar aluno com série inválida | POST | `/alunos` | `{"codigo": "A99999", "serie": 9, "escolaId": {escola_id}}` | 400 | ✅ |
 | 13 | Alunos | Criar aluno em escola inexistente | POST | `/alunos` | `{"codigo": "A99998", "serie": 3, "escolaId": 999999}` | 404 | ✅ |
-| 14 | Alunos | Listar alunos | GET | `/alunos` | — | 200 | ⏳ |
+| 14 | Alunos | Listar alunos | GET | `/alunos` | — | 200 | ✅ |
 | 15 | Alunos | Buscar aluno | GET | `/alunos/{aluno_id}` | — | 200 | ✅ |
 | 16 | Alunos | Buscar aluno inexistente | GET | `/alunos/999999` | — | 404 | ✅ |
 | 17 | Alunos | Atualizar aluno | PUT | `/alunos/{aluno_id}` | `{"serie": 4, "escolaId": {escola_id}}` | 200 | ✅ |
@@ -708,11 +708,11 @@ Nas URLs e nos corpos, `{escola_id}`, `{aluno_id}` e `{diagnostico_id}` são as 
 | 29 | Exclusões | Excluir escola com alunos | DELETE | `/escolas/{escola_id}` | — | 409 | ✅ |
 | 30 | Exclusões | Excluir aluno com diagnósticos | DELETE | `/alunos/{aluno_id}` | — | 409 | ✅ |
 | 31 | Exclusões | Excluir aluno inexistente | DELETE | `/alunos/999999` | — | 404 | ✅ |
-| 32 | Health check | Health check | GET | `/healthcheck` | — | 200 | ⏳ |
-| 33 | Escolas | Listar escolas - página com 1 item | GET | `/escolas?page=0&size=1&sort=codigo,desc` | — | 200 | ⏳ |
-| 34 | Alunos | Listar alunos - página com 1 item | GET | `/alunos?page=0&size=1` | — | 200 | ⏳ |
+| 32 | Health check | Health check | GET | `/healthcheck` | — | 200 | ✅ |
+| 33 | Escolas | Listar escolas - página com 1 item | GET | `/escolas?page=0&size=1&sort=codigo,desc` | — | 200 | ✅ |
+| 34 | Alunos | Listar alunos - página com 1 item | GET | `/alunos?page=0&size=1` | — | 200 | ✅ |
 
-Legenda: ✅ passou · ⏳ executar nesta versão.
+Legenda: ✅ passou.
 
 Corpo dos testes de diagnóstico ("respostas do golden test A03503", aluno do 4º ano):
 
