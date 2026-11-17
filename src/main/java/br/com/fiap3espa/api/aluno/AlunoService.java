@@ -7,6 +7,8 @@ import br.com.fiap3espa.api.escola.EscolaService;
 // Exceções que viram 409 e 404
 import br.com.fiap3espa.api.exception.ConflitoException;
 import br.com.fiap3espa.api.exception.RecursoNaoEncontradoException;
+// Repositório de diagnósticos (verifica se o aluno tem diagnósticos antes de excluir)
+import br.com.fiap3espa.api.diagnostico.DiagnosticoRepository;
 // Injeção de dependências automática pelo Spring (@Autowired)
 import org.springframework.beans.factory.annotation.Autowired;
 // Paginação do Spring Data:
@@ -26,6 +28,11 @@ public class AlunoService {
     // @Autowired: o Spring injeta a instância automaticamente no campo
     @Autowired
     private AlunoRepository alunoRepository;
+
+    // Usado para verificar se o aluno tem diagnósticos antes de excluir
+    // @Autowired: o Spring injeta a instância automaticamente no campo
+    @Autowired
+    private DiagnosticoRepository diagnosticoRepository;
 
     // Usado para buscar a escola informada no cadastro
     // @Autowired: o Spring injeta a instância automaticamente no campo
@@ -74,6 +81,10 @@ public class AlunoService {
     public void excluir(Long id) {
         // Busca o aluno (404 se não existir)
         Aluno aluno = buscarEntidade(id);
+        // Aluno com diagnósticos não pode ser excluído, para não perder o histórico (409)
+        if (diagnosticoRepository.existsByAlunoId(id)) {
+            throw new ConflitoException("O aluno " + aluno.getCodigo() + " tem diagnósticos e não pode ser excluído");
+        }
         // Remove do banco
         alunoRepository.delete(aluno);
     }
