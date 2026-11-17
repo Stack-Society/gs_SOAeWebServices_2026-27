@@ -1,0 +1,578 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_source": "aprendia",
+  "resources": [
+    {
+      "_id": "wrk_aprendia",
+      "_type": "workspace",
+      "name": "AprendIA API",
+      "description": "API REST do AprendIA (GS 2026 - SOA)",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_base",
+      "_type": "environment",
+      "parentId": "wrk_aprendia",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:8080",
+        "escola_id": 1,
+        "aluno_id": 1,
+        "diagnostico_id": 1
+      }
+    },
+    {
+      "_id": "fld_0",
+      "_type": "request_group",
+      "parentId": "wrk_aprendia",
+      "name": "0. Health check",
+      "metaSortKey": 0
+    },
+    {
+      "_id": "req_32",
+      "_type": "request",
+      "parentId": "fld_0",
+      "name": "Health check (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/healthcheck",
+      "metaSortKey": 0,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "fld_1",
+      "_type": "request_group",
+      "parentId": "wrk_aprendia",
+      "name": "1. Questionário",
+      "metaSortKey": 1
+    },
+    {
+      "_id": "req_01",
+      "_type": "request",
+      "parentId": "fld_1",
+      "name": "Questionário do 3º ano (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/questionarios/3",
+      "metaSortKey": 1,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_02",
+      "_type": "request",
+      "parentId": "fld_1",
+      "name": "Série inexistente (400)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/questionarios/9",
+      "metaSortKey": 2,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "fld_2",
+      "_type": "request_group",
+      "parentId": "wrk_aprendia",
+      "name": "2. Escolas",
+      "metaSortKey": 2
+    },
+    {
+      "_id": "req_03",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Criar escola (201)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/escolas",
+      "metaSortKey": 3,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"E01\",\n  \"nome\": \"EMEF Exemplo\"\n}"
+      }
+    },
+    {
+      "_id": "req_04",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Criar escola com código repetido (409)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/escolas",
+      "metaSortKey": 4,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"E01\",\n  \"nome\": \"Outra escola\"\n}"
+      }
+    },
+    {
+      "_id": "req_05",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Criar escola sem nome (400)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/escolas",
+      "metaSortKey": 5,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"E02\",\n  \"nome\": \"\"\n}"
+      }
+    },
+    {
+      "_id": "req_06",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Listar escolas (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/escolas",
+      "metaSortKey": 6,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_33",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Listar escolas - página com 1 item (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/escolas?page=0&size=1&sort=codigo,desc",
+      "metaSortKey": 6.5,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_07",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Buscar escola (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/escolas/{{ _.escola_id }}",
+      "metaSortKey": 7,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_08",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Buscar escola inexistente (404)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/escolas/999999",
+      "metaSortKey": 8,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_09",
+      "_type": "request",
+      "parentId": "fld_2",
+      "name": "Atualizar escola (200)",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/escolas/{{ _.escola_id }}",
+      "metaSortKey": 9,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"nome\": \"EMEF Exemplo - Unidade Centro\"\n}"
+      }
+    },
+    {
+      "_id": "fld_3",
+      "_type": "request_group",
+      "parentId": "wrk_aprendia",
+      "name": "3. Alunos",
+      "metaSortKey": 3
+    },
+    {
+      "_id": "req_10",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Criar aluno do 4º ano (201)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos",
+      "metaSortKey": 10,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"A03503\",\n  \"serie\": 4,\n  \"escolaId\": {{ _.escola_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_11",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Criar aluno com código repetido (409)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos",
+      "metaSortKey": 11,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"A03503\",\n  \"serie\": 4,\n  \"escolaId\": {{ _.escola_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_12",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Criar aluno com série inválida (400)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos",
+      "metaSortKey": 12,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"A99999\",\n  \"serie\": 9,\n  \"escolaId\": {{ _.escola_id }}\n}"
+      }
+    },
+    {
+      "_id": "req_13",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Criar aluno em escola inexistente (404)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos",
+      "metaSortKey": 13,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"codigo\": \"A99998\",\n  \"serie\": 3,\n  \"escolaId\": 999999\n}"
+      }
+    },
+    {
+      "_id": "req_14",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Listar alunos (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos",
+      "metaSortKey": 14,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_34",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Listar alunos - página com 1 item (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos?page=0&size=1",
+      "metaSortKey": 14.5,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_15",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Buscar aluno (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}",
+      "metaSortKey": 15,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_16",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Buscar aluno inexistente (404)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos/999999",
+      "metaSortKey": 16,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_17",
+      "_type": "request",
+      "parentId": "fld_3",
+      "name": "Atualizar aluno (200)",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}",
+      "metaSortKey": 17,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"serie\": 4,\n  \"escolaId\": {{ _.escola_id }}\n}"
+      }
+    },
+    {
+      "_id": "fld_4",
+      "_type": "request_group",
+      "parentId": "wrk_aprendia",
+      "name": "4. Diagnósticos",
+      "metaSortKey": 4
+    },
+    {
+      "_id": "req_18",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Diagnosticar - golden test A03503 (201)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos",
+      "metaSortKey": 18,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"respostas\": {\n    \"q1\": \"A\",\n    \"q2\": \"A\",\n    \"q3\": \"B\",\n    \"q4\": \"B\",\n    \"q5\": \"C\",\n    \"q6\": \"C\",\n    \"q7\": \"B\",\n    \"q8\": \"A\",\n    \"q9\": \"A\",\n    \"q10\": \"C\",\n    \"q11\": \"B\",\n    \"q12\": \"C\",\n    \"q13\": \"C\",\n    \"q14\": \"C\",\n    \"q15\": \"C\",\n    \"q16\": \"C\",\n    \"q17\": \"C\",\n    \"q18\": \"A\",\n    \"q19\": \"B\",\n    \"q20\": \"C\",\n    \"q21\": \"A\",\n    \"q22\": \"B\",\n    \"q23\": \"C\",\n    \"q24\": \"B\"\n  }\n}"
+      }
+    },
+    {
+      "_id": "req_19",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Questionário com resposta inválida (400)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos",
+      "metaSortKey": 19,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"respostas\": {\n    \"q1\": \"D\",\n    \"q2\": \"A\",\n    \"q3\": \"B\",\n    \"q4\": \"B\",\n    \"q5\": \"C\",\n    \"q6\": \"C\",\n    \"q7\": \"B\",\n    \"q8\": \"A\",\n    \"q9\": \"A\",\n    \"q10\": \"C\",\n    \"q11\": \"B\",\n    \"q12\": \"C\",\n    \"q13\": \"C\",\n    \"q14\": \"C\",\n    \"q15\": \"C\",\n    \"q16\": \"C\",\n    \"q17\": \"C\",\n    \"q18\": \"A\",\n    \"q19\": \"B\",\n    \"q20\": \"C\",\n    \"q21\": \"A\",\n    \"q22\": \"B\",\n    \"q23\": \"C\",\n    \"q24\": \"B\"\n  }\n}"
+      }
+    },
+    {
+      "_id": "req_20",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Questionário com questão em branco (400)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos",
+      "metaSortKey": 20,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"respostas\": {\n    \"q1\": \"A\",\n    \"q2\": \"A\",\n    \"q3\": \"B\",\n    \"q4\": \"B\",\n    \"q5\": \"\",\n    \"q6\": \"C\",\n    \"q7\": \"B\",\n    \"q8\": \"A\",\n    \"q9\": \"A\",\n    \"q10\": \"C\",\n    \"q11\": \"B\",\n    \"q12\": \"C\",\n    \"q13\": \"C\",\n    \"q14\": \"C\",\n    \"q15\": \"C\",\n    \"q16\": \"C\",\n    \"q17\": \"C\",\n    \"q18\": \"A\",\n    \"q19\": \"B\",\n    \"q20\": \"C\",\n    \"q21\": \"A\",\n    \"q22\": \"B\",\n    \"q23\": \"C\",\n    \"q24\": \"B\"\n  }\n}"
+      }
+    },
+    {
+      "_id": "req_21",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Diagnosticar aluno inexistente (404)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/alunos/999999/diagnosticos",
+      "metaSortKey": 21,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"respostas\": {\n    \"q1\": \"A\",\n    \"q2\": \"A\",\n    \"q3\": \"B\",\n    \"q4\": \"B\",\n    \"q5\": \"C\",\n    \"q6\": \"C\",\n    \"q7\": \"B\",\n    \"q8\": \"A\",\n    \"q9\": \"A\",\n    \"q10\": \"C\",\n    \"q11\": \"B\",\n    \"q12\": \"C\",\n    \"q13\": \"C\",\n    \"q14\": \"C\",\n    \"q15\": \"C\",\n    \"q16\": \"C\",\n    \"q17\": \"C\",\n    \"q18\": \"A\",\n    \"q19\": \"B\",\n    \"q20\": \"C\",\n    \"q21\": \"A\",\n    \"q22\": \"B\",\n    \"q23\": \"C\",\n    \"q24\": \"B\"\n  }\n}"
+      }
+    },
+    {
+      "_id": "req_22",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Histórico do aluno (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos",
+      "metaSortKey": 22,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_23",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Buscar diagnóstico (200)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos/{{ _.diagnostico_id }}",
+      "metaSortKey": 23,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_24",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Buscar diagnóstico inexistente (404)",
+      "method": "GET",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos/999999",
+      "metaSortKey": 24,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_25",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Professor confirma geometria como lacuna (200)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos/{{ _.diagnostico_id }}/conteudos/geometria",
+      "metaSortKey": 25,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"situacao\": \"lacuna\"\n}"
+      }
+    },
+    {
+      "_id": "req_26",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Professor confirma grandezas_medidas sem lacuna (200)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos/{{ _.diagnostico_id }}/conteudos/grandezas_medidas",
+      "metaSortKey": 26,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"situacao\": \"sem_lacuna\"\n}"
+      }
+    },
+    {
+      "_id": "req_27",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Confirmar conteúdo já decidido pelo modelo (409)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos/{{ _.diagnostico_id }}/conteudos/numeros",
+      "metaSortKey": 27,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"situacao\": \"sem_lacuna\"\n}"
+      }
+    },
+    {
+      "_id": "req_28",
+      "_type": "request",
+      "parentId": "fld_4",
+      "name": "Confirmar com situação inválida (400)",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}/diagnosticos/{{ _.diagnostico_id }}/conteudos/geometria",
+      "metaSortKey": 28,
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"situacao\": \"talvez\"\n}"
+      }
+    },
+    {
+      "_id": "fld_5",
+      "_type": "request_group",
+      "parentId": "wrk_aprendia",
+      "name": "5. Exclusões",
+      "metaSortKey": 5
+    },
+    {
+      "_id": "req_29",
+      "_type": "request",
+      "parentId": "fld_5",
+      "name": "Excluir escola com alunos (409)",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/escolas/{{ _.escola_id }}",
+      "metaSortKey": 29,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_30",
+      "_type": "request",
+      "parentId": "fld_5",
+      "name": "Excluir aluno com diagnósticos (409)",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/alunos/{{ _.aluno_id }}",
+      "metaSortKey": 30,
+      "headers": [],
+      "body": {}
+    },
+    {
+      "_id": "req_31",
+      "_type": "request",
+      "parentId": "fld_5",
+      "name": "Excluir aluno inexistente (404)",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/alunos/999999",
+      "metaSortKey": 31,
+      "headers": [],
+      "body": {}
+    }
+  ]
+}
